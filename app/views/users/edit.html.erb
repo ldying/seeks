@@ -1,0 +1,19 @@
+<h1>Users#edit</h1>
+<% if session[:user_id] == @user.id %>
+  <form action="/users/<%= @user.id %>" method="post">
+    <input type='hidden' name='authenticity_token' value='<%= form_authenticity_token %>'>
+    <input type='hidden' name='_method' value='delete'>
+    <input type='submit' value='Delete Account'>
+  </form>
+<% end %>
+<form action="/users/<%= @user.id %>" method="post">
+	<input type="hidden" name="_method" value="patch">
+	<input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+	<label>Name
+		<input type="text" name="user[name]" value="<%= @user.name %>">
+	</label><br>
+	<label>Email
+		<input type="text" name="user[email]" value="<%= @user.email %>">
+	</label><br>
+	<input type="submit" value="Update">
+</form>

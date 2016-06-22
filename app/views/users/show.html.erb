@@ -1,0 +1,31 @@
+<h1>Users#show</h1>
+
+<a href="/users/<%= @user.id%>/edit">Edit Profile</a> | <a href="/secrets">All Secrets</a>
+<p>Name: <%= @user.name%></p>
+<p>Email: <%= @user.email%></p>
+<hr>
+<form action="/secrets" method="post">
+	<h5>New Secret:</h5>
+	<input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+	<label>Secret
+		<input type="text" name="secret[content]">
+	</label>
+	<input type="submit" value="Create New Secret">
+</form>
+
+<h5>Secrets:</h5>
+ <% if @user.secrets.any?  %>
+   <% @user.secrets.reverse.each do |e| %>
+    <p><%= e.content %> -  (<%= e.created_at %>)</p>
+    <p><%= e.likes.count %> likes</p>
+
+	<form action="/secrets/<%=e.id%>" method="post">
+		<input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+		<input type="hidden" name="_method" value="delete">
+		<input type="submit" value="Delete">
+	</form>
+    <hr>
+   <% end %>
+ <% else %>
+    <h5>No secrets yet :(</h5>
+ <% end %>
